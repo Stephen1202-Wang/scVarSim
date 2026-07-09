@@ -12,8 +12,8 @@ refactored: the algorithm is preserved exactly so results stay reproducible.
 
 Two equivalent ways to reach the engine functions::
 
-    import scvarsim as scIsoSim          # scIsoSim.prepare_SNP_RED_list_phased(...)
-    from scvarsim import engine as scIsoSim
+    import scvarsim as scVarSim          # scVarSim.prepare_SNP_RED_list_phased(...)
+    from scvarsim import engine as scVarSim
 
 See ``examples/run_simulation.py`` for a config-driven end-to-end pipeline and
 ``examples/reproduce_chr19_GM12878.py`` for the verbatim manuscript driver.

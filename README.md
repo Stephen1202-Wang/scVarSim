@@ -97,14 +97,14 @@ The main outputs are the paired FASTQs
 ## Python API
 
 The engine functions are re-exported at the package top level (equivalently
-`from scvarsim import engine as scIsoSim`):
+`from scvarsim import engine as scVarSim`):
 
 ```python
-import scvarsim as scIsoSim
+import scvarsim as scVarSim
 
-scIsoSim.prepare_SNP_RED_list_phased(snp_vcf, indel_vcf, red_site, outdir,
+scVarSim.prepare_SNP_RED_list_phased(snp_vcf, indel_vcf, red_site, outdir,
                                      min_edit=0.01, max_edit=0.99)
-scIsoSim.assign_read_alleles_ASE(outdir, combined_prename, allelic_ratio_rds,
+scVarSim.assign_read_alleles_ASE(outdir, combined_prename, allelic_ratio_rds,
                                  per_cell=False, seed=2023)
 # ... see examples/run_simulation.py for the full ordered pipeline.
 ```
@@ -119,6 +119,7 @@ The end-to-end pipeline also calls `scReadSim` (`Utility`, `GenerateSyntheticCou
 
 | Doc | Contents |
 |:----|:---------|
+| [docs/QUICKSTART.md](docs/QUICKSTART.md) | already have the inputs? just fill the config and run |
 | [docs/INSTALL.md](docs/INSTALL.md) | conda env, scReadSim/rpy2/R/scDesign2 setup, troubleshooting |
 | [docs/TUTORIAL.md](docs/TUTORIAL.md) | end-to-end chr19 GM12878 walkthrough |
 | [docs/INPUTS.md](docs/INPUTS.md) | every input file: format + how to produce it (`preprocessing/`) |

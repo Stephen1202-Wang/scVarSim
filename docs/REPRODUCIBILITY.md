@@ -22,17 +22,16 @@ scVarSim separates two ideas that are easy to conflate:
 
 - **`examples/run_simulation.py` calls the same functions, with the same
   arguments, in the same order, with the same seeds and toggles** as the verbatim
-  manuscript driver `examples/reproduce_chr19_GM12878.py`. The only differences are
-  that paths/toggles come from a YAML config and the engine is imported as a package.
-  You can confirm the call sites are identical:
+  manuscript driver `examples/reproduce_chr19_GM12878.py`. The differences are that
+  paths/toggles come from a YAML config, the engine is imported as a package, and the
+  engine alias is `scVarSim` (the record uses `scIsoSim`) — the same object. Confirm
+  the ordered call sequence matches (normalizing the alias):
 
   ```bash
-  # Extract the ordered pipeline call sites from each and diff them:
-  grep -oE '(scIsoSim|Utility|GenerateSyntheticCount|scRNA_GenerateBAM)\.[A-Za-z_]+' \
-      examples/reproduce_chr19_GM12878.py > /tmp/a.txt
-  grep -oE '(scIsoSim|Utility|GenerateSyntheticCount|scRNA_GenerateBAM)\.[A-Za-z_]+' \
-      examples/run_simulation.py > /tmp/b.txt
-  diff /tmp/a.txt /tmp/b.txt && echo "IDENTICAL call sequence"
+  norm() { sed -E 's/\b(scIsoSim|scVarSim)\./ENGINE./g' "$1" \
+      | grep -oE '(ENGINE|Utility|GenerateSyntheticCount|scRNA_GenerateBAM)\.[A-Za-z_]+'; }
+  diff <(norm examples/reproduce_chr19_GM12878.py) \
+       <(norm examples/run_simulation.py) && echo "IDENTICAL call sequence"
   ```
 
 No engine logic was modified. We deliberately did **not** add seeds or otherwise
