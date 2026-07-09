@@ -1,0 +1,26 @@
+# Python dependencies for scVarSim, pinned to the versions used to produce the
+# manuscript results. numpy==1.26.4 is the reproducibility-critical pin (the engine
+# draws random numbers via numpy Generator/legacy RNG; a different numpy can change
+# the stream). See docs/REPRODUCIBILITY.md.
+#
+# Install into the conda env from environment.yml:
+#   pip install -r requirements.txt
+#
+# NOTE: scReadSim pulls in rpy2 and requires a working R (>=4.2) with scDesign2.
+# Prefer installing rpy2/R via conda (see docs/INSTALL.md) before this file.
+
+numpy==1.26.4
+pandas==2.2.0
+pysam==0.23.3
+biopython==1.85
+vcfpy==0.13.8
+gffpandas==1.2.0
+joblib==1.5.3
+tqdm==4.66.1
+scipy==1.12.0
+
+# Pipeline orchestration (external package by the same lab)
+scReadSim==1.4.1
+
+# Only needed by examples/run_simulation.py to parse the YAML config
+PyYAML>=6.0

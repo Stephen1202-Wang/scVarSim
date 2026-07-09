@@ -1,0 +1,52 @@
+# scVarSim configuration -- chr19, GM12878.
+#
+# These are the exact inputs used for the manuscript chr19 GM12878 run, so this
+# config paired with `run_simulation.py` reproduces the same pipeline as the
+# verbatim driver `reproduce_chr19_GM12878.py`. To simulate your own data, edit
+# the paths below. See docs/INPUTS.md for each file's format and how to produce it.
+
+chr: chr19
+filename: GM12878
+read_len: 96
+
+# Pipeline toggles (match the driver; keep both true to produce output).
+embed_seq_error: true      # inject position-specific sequencing errors (fgbio) -- required for output
+somatic_mutation: true     # COSMIC-guided, cell-type-specific somatic SNVs
+
+# External tools. Directories are passed as-is to the engine (note some entries
+# intentionally keep a trailing slash to match how the functions concatenate paths).
+# All of these must ALSO be on $PATH (samtools/bedtools/seqtk/Rscript/java) so the
+# engine's shutil.which() lookups succeed. See docs/INSTALL.md.
+tools:
+  samtools_directory: "~/.conda/envs/scIsoSim/bin"
+  bedtools_directory: "~/.conda/envs/scIsoSim/bin"
+  seqtk_directory: "~/.conda/envs/scIsoSim/bin/"
+  gffread_dir: "~/.conda/envs/scIsoSim/bin/"
+  fgbio_jarfile: "/u/home/w/weijian/.conda/envs/scIsoSim/share/fgbio/fgbio.jar"
+  picard_jarfile: "~/.conda/envs/scIsoSim/share/picard-3.4.0-0/picard.jar"
+
+# Input files.
+inputs:
+  # Real scRNA-seq BAM (per-chromosome), with CB (cell barcode) and UB (UMI) tags.
+  bamfile: "/u/project/gxxiao/weijian/project/scEditSim/data/NGS_GM12878/GRCh38/STARsolo_alignment/GENCODE_Genome/split_by_chromosomes/GM12878_chr19.CBattached.filtered.bam"
+  # Cell barcodes (one per line), e.g. STARsolo filtered barcodes.tsv.
+  cells_barcode_file: "/u/project/gxxiao/weijian/project/scEditSim/data/NGS_GM12878/GRCh38/STARsolo_alignment/GENCODE_Genome/GM12878.Solo.out/Gene/filtered/barcodes.tsv"
+  # Reference genome FASTA (indexed with `samtools faidx`).
+  reference_genome_file: "/u/home/w/weijian/project-gxxiao/project/scEditSim/Genomes/GRCh38/GRCh38.p13.genome.fa"
+  # Chromosome sizes (tab-separated: name<TAB>length).
+  genome_size_file: "/u/home/w/weijian/project-gxxiao/project/scEditSim/Genomes/GRCh38/GRCh38.p13.genoms.sizes"
+  # Gene annotation (GFF3), e.g. GENCODE basic.
+  genome_annotation: "/u/home/w/weijian/project-gxxiao/project/scEditSim/Genomes/GRCh38/gencode.v42.primary_assembly.basic.annotation.gff3"
+  # RNA-editing sites with levels (DARNED-style user list) -- see preprocessing/rna_editing_snps_profile_from_real_data.sh
+  red_site: "/u/project/gxxiao/weijian/project/scEditSim/result/Real_data_GRCh38/GM12878/chr19/DARNED_user_list_20260618_chr19_3_rc_3.txt"
+  # PHASED GIAB SNPs/indels (per-chrom, coverage>=3) -- see preprocessing/{split_GIAB_phasetransfer_by_chrom,keep_phased_only,filter_GIAB_by_scRNAseq_coverage}.*
+  snp_site: "/u/project/gxxiao/weijian/project/scEditSim/Genomes/GIAB_NA12878_HG001/NISTv3.3.2_GRCh38/by_chrom_cov3/HG001_GRCh38_GIAB_highconf_v.3.3.2_highconf_PGandRTGphasetransfer_chr19_snps.phased_cov3.vcf.gz"
+  indel_site: "/u/project/gxxiao/weijian/project/scEditSim/Genomes/GIAB_NA12878_HG001/NISTv3.3.2_GRCh38/by_chrom_cov3/HG001_GRCh38_GIAB_highconf_v.3.3.2_highconf_PGandRTGphasetransfer_chr19_indels.phased_cov3.vcf.gz"
+  # Empirical per-gene allelic-ratio pool (R .rds, flat numeric vector in [0,1]) -- see preprocessing/build_allelic_ratio_pool.R
+  allelic_ratio_rds: "/u/project/gxxiao/weijian/project/scEditSim/scripts/allelic_ratio_all_pooled.rds"
+  # COSMIC somatic-mutation catalogs (GRCh38, normalized). Used only when somatic_mutation=true.
+  cosmic_coding_vcf: "/u/project/gxxiao/weijian/project/scEditSim/Genomes/COSMIC/Cosmic_GenomeScreensMutant_Normal_v104_GRCh38.vcf.gz"
+  cosmic_noncoding_vcf: "/u/project/gxxiao/weijian/project/scEditSim/Genomes/COSMIC/Cosmic_NonCodingVariants_Normal_v104_GRCh38.vcf.gz"
+
+# Output directory (created if missing).
+outdirectory: "/u/home/w/weijian/project-gxxiao/project/scEditSim/result/Synthetic_data/GRCh38_20260624_User_Input_scReadSim_based_Estimate_From_Real_Data_One_Celltype_read_len_96_chr19_sequence_depth_one_times_GM12878_Haplotype_ASE"

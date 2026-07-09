@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "scvarsim"
+version = "0.1.0"
+description = "Single-Cell Variant Simulator: synthetic scRNA-seq reads with ground-truth SNPs, indels, ASE, RNA editing, and somatic SNVs."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "Xiao Lab, University of California, Los Angeles" }]
+keywords = ["scRNA-seq", "simulation", "variant-calling", "RNA-editing", "single-cell", "allele-specific-expression"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: POSIX :: Linux",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+    "Intended Audience :: Science/Research",
+]
+
+# Dependencies of the importable engine (scvarsim.engine). numpy is pinned exactly
+# for reproducibility (RNG stream stability); the rest use lower bounds. The pipeline
+# ALSO needs scReadSim + external CLI tools (samtools/bedtools/seqtk/fgbio/picard/R)
+# and PyYAML for the example runner -- see requirements.txt / docs/INSTALL.md.
+dependencies = [
+    "numpy==1.26.4",
+    "pandas>=2.2",
+    "pysam>=0.23",
+    "biopython>=1.85",
+    "vcfpy>=0.13",
+    "gffpandas>=1.2",
+    "joblib>=1.4",
+    "tqdm>=4.66",
+]
+
+[project.optional-dependencies]
+# `pip install scvarsim[pipeline]` for the config-driven example runner.
+pipeline = ["PyYAML>=6.0", "scReadSim==1.4.1"]
+
+[project.urls]
+Homepage = "https://github.com/gxiaolab/scVarSim"
+Repository = "https://github.com/gxiaolab/scVarSim"
+
+[tool.setuptools]
+packages = ["scvarsim"]
+
+[tool.setuptools.package-data]
+# engine.py is the only module; nothing extra to bundle.
+scvarsim = []

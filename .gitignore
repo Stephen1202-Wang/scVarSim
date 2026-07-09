@@ -1,0 +1,47 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# --- scVarSim run artifacts ---
+result/
+results/
+Synthetic_data/
+log/
+logs/
+*.log
+core.*
+hs_err_pid*.log
+replay_pid*.log
+
+# --- caches / backups ---
+*.npy            # e.g. allelic_ratio_all_pooled.rds.npy engine cache
+*.bak
+*.bak.*
+.DS_Store
+
+# --- large data (never commit; obtain via preprocessing/ + docs/INPUTS.md) ---
+*.bam
+*.bai
+*.fa
+*.fasta
+*.fa.fai
+*.fai
+*.dict
+*.rds
+*.vcf
+*.vcf.gz
+*.vcf.gz.tbi
+*.gff3
+*.gtf
+*.sizes
+*.fq
+*.fastq
+*.fq.gz
+*.fastq.gz

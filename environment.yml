@@ -1,0 +1,68 @@
+# Conda environment for scVarSim (portable copy of the working `scIsoSim` env).
+# Create with:
+#   conda env create -f environment.yml
+#   conda activate scvarsim
+#   pip install -r requirements.txt        # pinned python deps + scReadSim
+#
+# The conda layer provides the CLI tools + R stack scReadSim needs; the pip layer
+# (requirements.txt) provides the python packages at reproducibility-pinned versions.
+name: scvarsim
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - python==3.9.19
+  # build / system libs
+  - autoconf
+  - automake
+  - bzip2
+  - curl
+  - gcc
+  - make
+  - ncurses
+  - openssl
+  - perl
+  - xz
+  - zlib
+  # bioinformatics CLI tools (must be on $PATH at runtime)
+  - samtools==1.21
+  - bedtools=2.29.1
+  - seqtk
+  - gffread
+  - bamtools
+  - gatk4
+  - picard
+  - fgbio
+  # R + rpy2 for scReadSim / scDesign2 and the allelic-ratio .rds loader
+  - rpy2
+  - r-base=4.2.3
+  - r-devtools
+  - r-shiny
+  - r-httpuv
+  - r-ragg
+  - r-miniui
+  - r-pkgdown
+  # UCSC + misc libs used across the toolchain
+  - ucsc-bigbedtobed
+  - ucsc-bigwigtobedgraph
+  - ucsc-bigwiginfo
+  - ucsc-bigwigsummary
+  - repeatmasker
+  - jellyfish
+  - libuv
+  - libpng
+  - freetype
+  - libjpeg-turbo
+  - libtiff
+  - ca-certificates
+  - pillow
+  - pyparsing
+  - cycler
+  - kiwisolver
+  - scipy
+  - cykhash
+  # python deps + scReadSim are installed via pip for exact version control
+  - pip
+  - pip:
+      - -r requirements.txt
