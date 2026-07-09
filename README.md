@@ -42,7 +42,8 @@ scVarSim/
 │   └── __init__.py          # re-exports the engine's public functions
 ├── examples/
 │   ├── run_simulation.py           # config-driven runner (portable entry point)
-│   ├── config.chr19_GM12878.yaml   # example config (chr19 GM12878)
+│   ├── config.template.yaml        # copy this, fill in your own paths
+│   ├── config.chr19_GM12878.yaml   # worked example (chr19 GM12878)
 │   ├── reproduce_chr19_GM12878.py  # verbatim manuscript driver (record)
 │   └── submit_hoffman2.sh          # UGE/SGE (qsub) wrapper
 ├── preprocessing/           # scripts that build the input files (see docs/INPUTS.md)
@@ -75,12 +76,13 @@ compilation issues) are in **[docs/INSTALL.md](docs/INSTALL.md)**.
 ## Quick start
 
 ```bash
-# 1. Edit examples/config.chr19_GM12878.yaml to point at your inputs
+# 1. Make your own config from the template and point it at your inputs
 #    (BAM with CB/UB tags, reference FASTA, barcodes, phased GIAB VCFs,
 #     RNA-editing list, allelic-ratio .rds, COSMIC VCFs). See docs/INPUTS.md.
+#      cp examples/config.template.yaml my_config.yaml && $EDITOR my_config.yaml
 
 # 2. Run the pipeline (uses $NSLOTS cores under a scheduler, else 16)
-python examples/run_simulation.py --config examples/config.chr19_GM12878.yaml
+python examples/run_simulation.py --config my_config.yaml
 ```
 
 On a UGE/SGE cluster: `qsub examples/submit_hoffman2.sh`.

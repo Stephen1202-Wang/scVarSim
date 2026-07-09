@@ -41,12 +41,15 @@ bash   preprocessing/rna_editing_snps_profile_from_real_data.sh
 
 ## 2. Configure
 
-Copy the example config and point it at your files:
+Copy the **template** and point it at your files (every value is a `/path/to/...`
+placeholder to replace):
 
 ```bash
-cp examples/config.chr19_GM12878.yaml my_config.yaml
-$EDITOR my_config.yaml         # set inputs.* , tools.* , outdirectory
+cp examples/config.template.yaml my_config.yaml
+$EDITOR my_config.yaml         # set tools.* , inputs.* , outdirectory
 ```
+
+(For the exact manuscript inputs instead, copy `examples/config.chr19_GM12878.yaml`.)
 
 Keep `chr: chr19`, `read_len: 96`, and both toggles `embed_seq_error: true` /
 `somatic_mutation: true` (set `somatic_mutation: false` to skip COSMIC SNVs).

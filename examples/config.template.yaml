@@ -1,0 +1,46 @@
+# scVarSim configuration TEMPLATE -- fill in your own paths.
+#
+#   cp examples/config.template.yaml my_config.yaml
+#   $EDITOR my_config.yaml          # replace every /path/to/... below
+#   python examples/run_simulation.py --config my_config.yaml
+#
+# Notes:
+#   * Paths are LITERAL -- there is no {chr} auto-substitution. Point each
+#     per-chromosome input at the file for the chromosome named in `chr:` below.
+#   * `~` is expanded, so tool dirs like "~/miniconda3/envs/scvarsim/bin" work.
+#   * See docs/INPUTS.md for each file's format + how to produce it, and
+#     examples/config.chr19_GM12878.yaml for a concrete, filled-in example.
+
+chr: chr19                 # chromosome to simulate (must match your per-chrom BAM/VCFs)
+filename: MySample         # short sample name; used as the output-file prefix
+read_len: 96               # Read 2 length (bp)
+
+# Toggles
+embed_seq_error: true      # keep true -- required to produce output
+somatic_mutation: true     # false = skip COSMIC somatic SNVs (cosmic_* then unused)
+
+# External tools. Each must ALSO be on $PATH (samtools/bedtools/seqtk/Rscript/java).
+tools:
+  samtools_directory: "/path/to/env/bin"
+  bedtools_directory: "/path/to/env/bin"
+  seqtk_directory: "/path/to/env/bin/"
+  gffread_dir: "/path/to/env/bin/"
+  fgbio_jarfile: "/path/to/fgbio.jar"
+  picard_jarfile: "/path/to/picard.jar"
+
+# Input files (see docs/INPUTS.md for formats + preprocessing/ builders).
+inputs:
+  bamfile: "/path/to/mysample.chr19.CBattached.filtered.bam"   # per-chrom BAM w/ CB+UB tags (+ .bai)
+  cells_barcode_file: "/path/to/barcodes.tsv"                  # one barcode per line
+  reference_genome_file: "/path/to/genome.fa"                  # + .fai (samtools faidx)
+  genome_size_file: "/path/to/genome.sizes"                    # name<TAB>length
+  genome_annotation: "/path/to/annotation.gff3"                # GENCODE GFF3
+  red_site: "/path/to/rna_editing_sites.chr19.txt"             # DARNED-style editing list w/ levels
+  snp_site: "/path/to/giab.chr19_snps.phased_cov3.vcf.gz"      # phased SNPs (+ .tbi)
+  indel_site: "/path/to/giab.chr19_indels.phased_cov3.vcf.gz"  # phased indels (+ .tbi)
+  allelic_ratio_rds: "/path/to/allelic_ratio_all_pooled.rds"   # R .rds, numeric vector in [0,1]
+  cosmic_coding_vcf: "/path/to/Cosmic_GenomeScreensMutant.vcf.gz"      # only if somatic_mutation: true
+  cosmic_noncoding_vcf: "/path/to/Cosmic_NonCodingVariants.vcf.gz"     # only if somatic_mutation: true
+
+# Output directory (created if missing).
+outdirectory: "/path/to/output_dir"

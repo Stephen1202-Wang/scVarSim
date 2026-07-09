@@ -1,6 +1,8 @@
 # Input files
 
-Every path is set in the YAML config (see `examples/config.chr19_GM12878.yaml`).
+Every path is set in the YAML config: copy `examples/config.template.yaml` (all
+placeholder paths) and fill it in, or see `examples/config.chr19_GM12878.yaml` for a
+concrete filled-in example.
 Large inputs are **not** shipped with this repo; the `preprocessing/` scripts below
 build them. All coordinates are 1-based genomic; the example uses GRCh38 with
 `chr`-prefixed contig names.
